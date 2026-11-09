@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Metadata</title>
+  </head>
+  <body>
+    <script>
+      const metadata = {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        language: navigator.language,
+        languages: navigator.languages,
+        cookiesEnabled: navigator.cookieEnabled,
+        online: navigator.onLine,
+
+        screen: {
+          width: screen.width,
+          height: screen.height,
+          colorDepth: screen.colorDepth,
+          pixelRatio: window.devicePixelRatio,
+        },
+
+        browser: {
+          vendor: navigator.vendor,
+          cores: navigator.hardwareConcurrency,
+          deviceMemory: navigator.deviceMemory ?? "Unavailable",
+        },
+
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      };
+
+      fetch("http://127.0.0.1:3000/epe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(metadata),
+      })
+        .then(async (response) => {
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.message || `HTTP ${response.status}`);
+          }
+
+          console.log("Server response:", data);
+        })
+        .catch((error) => {
+          console.error("Request failed:", error);
+        });
+    </script>
+
+    <!-- Redirecting page -->
+    <script>
+      window.location.replace("https://discord.com/users/1272092083993186315");
+    </script>
+  </body>
+</html>
